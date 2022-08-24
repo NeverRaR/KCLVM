@@ -22,9 +22,13 @@ RUN mkdir -p /root/download && cd /root/download \
       --prefix=/usr/local/python3.9 \
       --enable-optimizations \
       --with-ssl \
+      --enable-shared \
   && make install
 RUN ln -sf /usr/local/python3.9/bin/python3.9 /usr/bin/python3
 RUN ln -sf /usr/local/python3.9/bin/python3.9 /usr/bin/python3.9
+RUN ln -sf /usr/local/python3.9/lib /usr/lib/python3.9
+
+ENV KCLVM_PYTHON3_HOME=/usr/local/python3.9
 
 # rust
 # https://www.rust-lang.org/tools/install

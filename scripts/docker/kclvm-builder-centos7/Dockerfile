@@ -84,6 +84,17 @@ ENV PATH="/opt/rh/llvm-toolset-7.0/root/usr/bin:${PATH}"
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' >/etc/timezone
 
+RUN mkdir -p /root/download && cd /root/download \
+    && wget https://dl.google.com/go/go1.17.3.linux-amd64.tar.gz \
+    && tar -zxvf go1.17.3.linux-amd64.tar.gz \
+    && mv ./go /usr/local/go1.17.3
+
+RUN ln -sf /usr/local/go1.17.3/bin/go /usr/bin/go
+RUN rm -rf /root/download
+
+ENV GOPATH=/go
+ENV GOLANG_VERSION=1.17.3
+
 WORKDIR /root
 
 CMD ["bash"]
