@@ -1,3 +1,41 @@
+/*
+ ┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+ │                                              namer                                              │
+ ├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+ │       ┌─────────────────┐             ┌─────────────────┐             ┌─────────────────┐       │
+ │       │     ast::Node   │             │    ast::Node    │             │    ast::Node    │       │
+ │       └─────────────────┘             └─────────────────┘             └─────────────────┘       │
+ │                │                               │                               │                │
+ │                │ findSymbols                   │ findSymbols                   │ findSymbols    │
+ │                ▼                               ▼                               ▼                │
+ │   ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐   │
+ │   │     namer::find_symbols │     │     namer::find_symbols │     │     namer::find_symbols │   │
+ │   └─────────────────────────┘     └─────────────────────────┘     └─────────────────────────┘   │
+ │                │                               │                               │                │
+ │                │                               │                               │                │
+ │                └───────────────────────────────┼───────────────────────────────┘                │
+ │                                                │                                                │
+ │                                                │ merge find_symbols results                     │
+ │                                                ▼                                                │
+ │                                   ┌─────────────────────────┐                                   │
+ │                                   │ namer::UnresolvedSymbol │                                   │
+ │                                   └─────────────────────────┘                                   │
+ │                                                │                                                │
+ │                                                │ define_symbols(FQN)                            │
+ │                                                ■                                                │
+ │                                                  (mutates GlobalState)                          |
+ │                                                                                                 │
+ └─────────────────────────────────────────────────────────────────────────────────────────────────┘
+
+ The early stage of the namer will base on file level, which collects global
+ symbols defined in the file, and then merges the symbols based on FQN to
+ obtain a unique GlobalState.
+
+ Based on file level, it means that we can easily perform incremental compilation
+ in the first two stages.
+
+*/
+
 use crate::core::global_state::GlobalState;
 use crate::core::package::PackageInfo;
 use crate::core::symbol::{PackageSymbol, SymbolRef};
