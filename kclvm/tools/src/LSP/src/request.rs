@@ -146,7 +146,7 @@ pub(crate) fn handle_goto_definition(
     }
     let db = snapshot.get_db(&path.clone().into())?;
     let kcl_pos = kcl_pos(&file, params.text_document_position_params.position);
-    let res = goto_definition(&db.prog, &kcl_pos, &db.scope);
+    let res = goto_definition(&db.prog , &kcl_pos, &db.scope);
     if res.is_none() {
         log_message("Definition item not found".to_string(), &sender)?;
     }

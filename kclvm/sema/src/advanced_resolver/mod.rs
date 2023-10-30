@@ -34,6 +34,8 @@
                         └─────────────────────┘
 */
 
+use std::sync::Arc;
+
 use indexmap::IndexMap;
 use kclvm_error::Position;
 
@@ -44,7 +46,7 @@ use crate::{
         scope::{LocalSymbolScope, RootSymbolScope, ScopeKind, ScopeRef},
         symbol::SymbolRef,
     },
-    ty::TypeRef,
+    ty::{Type, TypeRef},
 };
 use kclvm_ast::ast;
 use kclvm_ast::ast::AstIndex;
@@ -65,7 +67,7 @@ pub struct AdvancedResolver<'ctx> {
 
 pub struct Context<'ctx> {
     pub program: &'ctx Program,
-    node_ty_map: IndexMap<AstIndex, TypeRef>,
+    node_ty_map: IndexMap<AstIndex, Arc<Type>>,
     scopes: Vec<ScopeRef>,
     current_pkgpath: Option<String>,
     current_filename: Option<String>,
@@ -86,6 +88,11 @@ impl<'ctx> AdvancedResolver<'ctx> {
         gs: GlobalState,
         node_ty_map: IndexMap<AstIndex, TypeRef>,
     ) -> GlobalState {
+        let node_ty_map = node_ty_map
+            .iter()
+            .map(|(k, v)| (k.clone(), Arc::new(v.as_ref().clone())))
+            .collect();
+
         let mut advanced_resolver = Self {
             gs,
             ctx: Context {

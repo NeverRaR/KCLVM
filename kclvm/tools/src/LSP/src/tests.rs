@@ -1,6 +1,7 @@
 use crossbeam_channel::after;
 use crossbeam_channel::select;
 use indexmap::IndexSet;
+use kclvm_sema::core::global_state::GlobalState;
 use lsp_server::Response;
 use lsp_types::notification::Exit;
 use lsp_types::request::GotoTypeDefinitionResponse;
@@ -102,19 +103,19 @@ pub(crate) fn compare_goto_res(
 
 pub(crate) fn compile_test_file(
     testfile: &str,
-) -> (String, Program, ProgramScope, IndexSet<KCLDiagnostic>) {
+) -> (String, Program, ProgramScope, IndexSet<KCLDiagnostic>, GlobalState) {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     let mut test_file = path;
     test_file.push(testfile);
 
     let file = test_file.to_str().unwrap().to_string();
 
-    let (program, prog_scope, diags) = parse_param_and_compile(
+    let (program, prog_scope, diags, gs) = parse_param_and_compile(
         Param { file: file.clone() },
         Some(Arc::new(RwLock::new(Default::default()))),
     )
     .unwrap();
-    (file, program, prog_scope, diags)
+    (file, program, prog_scope, diags, gs)
 }
 
 fn build_lsp_diag(
@@ -250,7 +251,7 @@ fn diagnostics_test() {
     test_file.push("src/test_data/diagnostics.k");
     let file = test_file.to_str().unwrap();
 
-    let (_, _, diags) = parse_param_and_compile(
+    let (_, _, diags, _) = parse_param_and_compile(
         Param {
             file: file.to_string(),
         },
@@ -393,7 +394,7 @@ fn goto_import_external_file_test() {
         .output()
         .unwrap();
 
-    let (program, prog_scope, diags) = parse_param_and_compile(
+    let (program, prog_scope, diags, gs) = parse_param_and_compile(
         Param {
             file: path.to_string(),
         },
@@ -983,7 +984,7 @@ fn konfig_goto_def_test_base() {
     let mut base_path = konfig_path.clone();
     base_path.push("appops/nginx-example/base/base.k");
     let base_path_str = base_path.to_str().unwrap().to_string();
-    let (program, prog_scope, _) = parse_param_and_compile(
+    let (program, prog_scope, _, gs) = parse_param_and_compile(
         Param {
             file: base_path_str.clone(),
         },
@@ -1074,7 +1075,7 @@ fn konfig_goto_def_test_main() {
     let mut main_path = konfig_path.clone();
     main_path.push("appops/nginx-example/dev/main.k");
     let main_path_str = main_path.to_str().unwrap().to_string();
-    let (program, prog_scope, _) = parse_param_and_compile(
+    let (program, prog_scope, _, gs) = parse_param_and_compile(
         Param {
             file: main_path_str.clone(),
         },
@@ -1137,7 +1138,7 @@ fn konfig_completion_test_main() {
     let mut main_path = konfig_path.clone();
     main_path.push("appops/nginx-example/dev/main.k");
     let main_path_str = main_path.to_str().unwrap().to_string();
-    let (program, prog_scope, _) = parse_param_and_compile(
+    let (program, prog_scope, _, _) = parse_param_and_compile(
         Param {
             file: main_path_str.clone(),
         },
@@ -1284,7 +1285,7 @@ fn konfig_hover_test_main() {
     let mut main_path = konfig_path.clone();
     main_path.push("appops/nginx-example/dev/main.k");
     let main_path_str = main_path.to_str().unwrap().to_string();
-    let (program, prog_scope, _) = parse_param_and_compile(
+    let (program, prog_scope, _, _) = parse_param_and_compile(
         Param {
             file: main_path_str.clone(),
         },

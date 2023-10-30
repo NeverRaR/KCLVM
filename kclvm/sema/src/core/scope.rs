@@ -58,7 +58,7 @@ impl ScopeRef {
     }
 }
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct ScopeData {
     /// map pkgpath to root_scope
     pub(crate) root_map: IndexMap<String, ScopeRef>,
@@ -141,7 +141,7 @@ impl ScopeData {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct RootSymbolScope {
     pub(crate) pkgpath: String,
 
@@ -293,7 +293,7 @@ impl RootSymbolScope {
 }
 
 #[allow(unused)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct LocalSymbolScope {
     pub(crate) parent: ScopeRef,
     pub(crate) owner: Option<SymbolRef>,

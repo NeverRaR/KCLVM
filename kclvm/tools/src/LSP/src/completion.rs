@@ -655,7 +655,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn var_completion_test() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _, gs) =
             compile_test_file("src/test_data/completion_test/dot/completion.k");
 
         // test completion for var
@@ -698,7 +698,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn dot_completion_test() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _, gs) =
             compile_test_file("src/test_data/completion_test/dot/completion.k");
 
         // test completion for schema attr
@@ -821,7 +821,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn dot_completion_test_without_dot() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _, gs) =
             compile_test_file("src/test_data/completion_test/without_dot/completion.k");
         // let mut items: IndexSet<KCLCompletionItem> = IndexSet::new();
 
@@ -945,7 +945,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn import_builtin_package() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _,gs) =
             compile_test_file("src/test_data/completion_test/import/import.k");
         let mut items: IndexSet<KCLCompletionItem> = IndexSet::new();
 
@@ -989,7 +989,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn attr_value_completion() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _, gs) =
             compile_test_file("src/test_data/completion_test/assign/completion.k");
 
         let pos = KCLPos {
@@ -1088,7 +1088,7 @@ mod tests {
     #[test]
     #[bench_test]
     fn schema_sig_completion() {
-        let (file, program, prog_scope, _) =
+        let (file, program, prog_scope, _, gs) =
             compile_test_file("src/test_data/completion_test/schema/schema.k");
 
         // test completion for builtin packages

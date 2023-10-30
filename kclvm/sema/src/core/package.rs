@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Clone)]
 pub struct PackageDB {
     pub(crate) package_info: IndexMap<String, PackageInfo>,
     pub(crate) module_info: IndexMap<String, ModuleInfo>,
@@ -40,7 +40,7 @@ impl PackageDB {
         self.module_info.get(name)
     }
 }
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct PackageInfo {
     pub(crate) fully_qualified_name: String,
     pub(crate) filename: String,
@@ -55,7 +55,7 @@ impl PackageInfo {
     }
 }
 #[allow(unused)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ImportInfo {
     pub(crate) unqualified_name: String,
     pub(crate) fully_qualified_name: String,
@@ -70,7 +70,7 @@ impl ImportInfo {
     }
 }
 #[allow(unused)]
-#[derive(Debug)]
+#[derive(Debug, Clone)]
 pub struct ModuleInfo {
     pub(crate) filename: String,
     pub(crate) pkgpath: String,
