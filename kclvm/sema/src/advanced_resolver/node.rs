@@ -57,6 +57,7 @@ impl<'ctx> MutSelfTypedResultWalker<'ctx> for AdvancedResolver<'ctx> {
             self.walk_identifier_expr(target);
             self.ctx.maybe_def = false;
         }
+        self.walk_type_expr(assign_stmt.ty.as_ref().map(|ty| ty.as_ref()));
         self.expr(&assign_stmt.value);
         None
     }
@@ -363,6 +364,7 @@ impl<'ctx> MutSelfTypedResultWalker<'ctx> for AdvancedResolver<'ctx> {
             self.walk_comp_clause(&comp_clause.node);
         }
         self.expr(key);
+        self.expr(&dict_comp.entry.value);
         self.leave_scope();
         None
     }

@@ -256,7 +256,7 @@ impl Scope for RootSymbolScope {
             for (index, scope) in scopes.iter().enumerate() {
                 let scope = scope_data.get_scope(*scope)?;
                 output.push_str(&format!("{}", scope.dump(scope_data, symbol_data)?));
-                if index + 1 < self.children.len() {
+                if index + 1 < scopes.len() {
                     output.push_str(",\n");
                 }
             }

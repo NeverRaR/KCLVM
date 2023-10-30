@@ -279,7 +279,7 @@ mod tests {
         let gs = Namer::find_symbols(&program, gs);
         let node_ty_map = resolver::resolve_program(&mut program).node_ty_map;
         let gs = AdvancedResolver::resolve_program(&program, gs, node_ty_map);
-        //print_symbols_info(&gs);
+        print_symbols_info(&gs);
         let except_symbols = vec![
             (
                 "src/advanced_resolver/test_data/import_test/f.k"
@@ -522,8 +522,24 @@ mod tests {
                             .replace("/", &std::path::MAIN_SEPARATOR.to_string()),
                         SymbolKind::Value,
                     ),
-                    (24, 4, 24, 6, "_c".to_string(), SymbolKind::Value),
-                    (26, 4, 26, 6, "_c".to_string(), SymbolKind::Value),
+                    (24, 4, 24, 6, "_c".to_string(), SymbolKind::Unresolved),
+                    (
+                        22,
+                        4,
+                        22,
+                        6,
+                        "src/advanced_resolver/test_data/schema_symbols.k".to_string(),
+                        SymbolKind::Value,
+                    ),
+                    (26, 4, 26, 6, "_c".to_string(), SymbolKind::Unresolved),
+                    (
+                        22,
+                        4,
+                        22,
+                        6,
+                        "src/advanced_resolver/test_data/schema_symbols.k".to_string(),
+                        SymbolKind::Value,
+                    ),
                     (28, 0, 28, 1, "p".to_string(), SymbolKind::Value),
                     (28, 4, 28, 8, "Main".to_string(), SymbolKind::Unresolved),
                     (

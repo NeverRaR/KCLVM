@@ -14,7 +14,6 @@ use std::{
 };
 
 use crate::resolver::Resolver;
-use crate::ty::Type;
 use crate::ty::TypeRef;
 use crate::{builtin::BUILTIN_FUNCTIONS, ty::TypeInferMethods};
 use kclvm_ast::ast::AstIndex;
