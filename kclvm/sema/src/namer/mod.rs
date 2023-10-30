@@ -107,6 +107,13 @@ impl<'ctx> Namer<'ctx> {
             }
 
             for module in modules.iter() {
+                namer
+                    .ctx
+                    .current_package_info
+                    .as_mut()
+                    .unwrap()
+                    .kfile_paths
+                    .insert(module.filename.clone());
                 namer.ctx.current_module_info =
                     Some(ModuleInfo::new(module.filename.clone(), name.to_string()));
                 namer.walk_module(module);

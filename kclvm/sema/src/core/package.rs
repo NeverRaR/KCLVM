@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use indexmap::{IndexMap, IndexSet};
 
 #[derive(Default, Debug, Clone)]
 pub struct PackageDB {
@@ -44,6 +44,7 @@ impl PackageDB {
 pub struct PackageInfo {
     pub(crate) fully_qualified_name: String,
     pub(crate) filename: String,
+    pub(crate) kfile_paths: IndexSet<String>,
 }
 
 impl PackageInfo {
@@ -51,6 +52,7 @@ impl PackageInfo {
         Self {
             fully_qualified_name,
             filename,
+            kfile_paths: IndexSet::default(),
         }
     }
 }
