@@ -565,44 +565,44 @@ mod tests {
         }
     }
 
-    // #[test]
-    // #[bench_test]
-    // fn goto_pkg_prefix_def_test() {
-    //     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    #[test]
+    #[bench_test]
+    fn goto_pkg_prefix_def_test() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
 
-    //     let (file, program, prog_scope, _, gs) =
-    //         compile_test_file("src/test_data/goto_def_test/goto_def.k");
+        let (file, program, prog_scope, _, gs) =
+            compile_test_file("src/test_data/goto_def_test/goto_def.k");
 
-    //     // test goto pkg prefix def: p = pkg.Person {  <- pkg
-    //     let pos = KCLPos {
-    //         filename: file,
-    //         line: 4,
-    //         column: Some(7),
-    //     };
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     let mut expected_files = IndexSet::new();
-    //     let path_str = path.to_str().unwrap();
-    //     let test_files = [
-    //         "src/test_data/goto_def_test/pkg/schema_def1.k",
-    //         "src/test_data/goto_def_test/pkg/schema_def.k",
-    //     ];
-    //     expected_files.insert(format!("{}/{}", path_str, test_files[0]));
-    //     expected_files.insert(format!("{}/{}", path_str, test_files[1]));
+        // test goto pkg prefix def: p = pkg.Person {  <- pkg
+        let pos = KCLPos {
+            filename: file,
+            line: 4,
+            column: Some(7),
+        };
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        let mut expected_files = IndexSet::new();
+        let path_str = path.to_str().unwrap();
+        let test_files = [
+            "src/test_data/goto_def_test/pkg/schema_def1.k",
+            "src/test_data/goto_def_test/pkg/schema_def.k",
+        ];
+        expected_files.insert(format!("{}/{}", path_str, test_files[0]));
+        expected_files.insert(format!("{}/{}", path_str, test_files[1]));
 
-    //     match res.unwrap() {
-    //         lsp_types::GotoDefinitionResponse::Array(arr) => {
-    //             assert_eq!(expected_files.len(), arr.len());
-    //             for loc in arr {
-    //                 let got_path = loc.uri.path().to_string();
-    //                 assert!(expected_files.contains(&got_path));
-    //             }
-    //         }
-    //         _ => {
-    //             unreachable!("test error")
-    //         }
-    //     }
-    // }
+        match res.unwrap() {
+            lsp_types::GotoDefinitionResponse::Array(arr) => {
+                assert_eq!(expected_files.len(), arr.len());
+                for loc in arr {
+                    let got_path = loc.uri.path().to_string();
+                    assert!(expected_files.contains(&got_path));
+                }
+            }
+            _ => {
+                unreachable!("test error")
+            }
+        }
+    }
 
     #[test]
     #[bench_test]
@@ -680,67 +680,67 @@ mod tests {
         compare_goto_res(res, (&file, 69, 6, 69, 10));
     }
 
-    // #[test]
-    // #[bench_test]
-    // fn goto_var_def_in_dict_comp_test() {
-    //     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    #[test]
+    #[bench_test]
+    fn goto_var_def_in_dict_comp_test() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
 
-    //     let (file, program, prog_scope, _, gs) =
-    //         compile_test_file("src/test_data/goto_def_test/goto_def.k");
+        let (file, program, prog_scope, _, gs) =
+            compile_test_file("src/test_data/goto_def_test/goto_def.k");
 
-    //     let mut expected_path = path;
-    //     expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
+        let mut expected_path = path;
+        expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 77,
-    //         column: Some(68),
-    //     };
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     compare_goto_res(res, (&file, 76, 143, 76, 145));
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 77,
+            column: Some(68),
+        };
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        compare_goto_res(res, (&file, 76, 143, 76, 145));
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 77,
-    //         column: Some(61),
-    //     };
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     compare_goto_res(res, (&file, 76, 143, 76, 145));
-    // }
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 77,
+            column: Some(61),
+        };
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        compare_goto_res(res, (&file, 76, 143, 76, 145));
+    }
 
-    // #[test]
-    // fn goto_dict_key_def_test() {
-    //     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    #[test]
+    fn goto_dict_key_def_test() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
 
-    //     let (file, program, prog_scope, _, gs) =
-    //         compile_test_file("src/test_data/goto_def_test/goto_def.k");
+        let (file, program, prog_scope, _, gs) =
+            compile_test_file("src/test_data/goto_def_test/goto_def.k");
 
-    //     let mut expected_path = path;
-    //     expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
+        let mut expected_path = path;
+        expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 26,
-    //         column: Some(24),
-    //     };
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     compare_goto_res(
-    //         res,
-    //         (&expected_path.to_str().unwrap().to_string(), 8, 4, 8, 8),
-    //     );
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 26,
+            column: Some(24),
+        };
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        compare_goto_res(
+            res,
+            (&expected_path.to_str().unwrap().to_string(), 8, 4, 8, 8),
+        );
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 59,
-    //         column: Some(28),
-    //     };
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     compare_goto_res(res, (&file, 18, 4, 18, 8));
-    // }
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 59,
+            column: Some(28),
+        };
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        compare_goto_res(res, (&file, 18, 4, 18, 8));
+    }
 
     #[test]
     #[bench_test]
@@ -860,28 +860,28 @@ mod tests {
         compare_goto_res(res, (&file, 3, 0, 3, 1));
     }
 
-    // #[test]
-    // #[bench_test]
-    // fn goto_assign_type_test() {
-    //     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    #[test]
+    #[bench_test]
+    fn goto_assign_type_test() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
 
-    //     let (file, program, prog_scope, _, gs) =
-    //         compile_test_file("src/test_data/goto_def_test/goto_def.k");
+        let (file, program, prog_scope, _, gs) =
+            compile_test_file("src/test_data/goto_def_test/goto_def.k");
 
-    //     let mut expected_path = path;
-    //     expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
+        let mut expected_path = path;
+        expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
 
-    //     // test goto schema attr definition: name: "alice"
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 38,
-    //         column: Some(17),
-    //     };
+        // test goto schema attr definition: name: "alice"
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 38,
+            column: Some(17),
+        };
 
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     compare_goto_res(res, (&file, 33, 0, 37, 0));
-    // }
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        compare_goto_res(res, (&file, 33, 0, 37, 0));
+    }
 
     #[test]
     #[bench_test]
@@ -1030,48 +1030,48 @@ mod tests {
         );
     }
 
-    // #[test]
-    // #[bench_test]
-    // fn goto_local_var_def_test() {
-    //     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
+    #[test]
+    #[bench_test]
+    fn goto_local_var_def_test() {
+        let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
 
-    //     let (file, program, prog_scope, _, gs) =
-    //         compile_test_file("src/test_data/goto_def_test/goto_def.k");
+        let (file, program, prog_scope, _, gs) =
+            compile_test_file("src/test_data/goto_def_test/goto_def.k");
 
-    //     let mut expected_path = path;
-    //     expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
+        let mut expected_path = path;
+        expected_path.push("src/test_data/goto_def_test/pkg/schema_def.k");
 
-    //     // test goto local var def
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 47,
-    //         column: Some(11),
-    //     };
+        // test goto local var def
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 47,
+            column: Some(11),
+        };
 
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     // compare_goto_res(res, (&file, 43, 4, 43, 9));
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        // compare_goto_res(res, (&file, 43, 4, 43, 9));
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 49,
-    //         column: Some(11),
-    //     };
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 49,
+            column: Some(11),
+        };
 
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     // compare_goto_res(res, (&file, 43, 4, 43, 9));
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        // compare_goto_res(res, (&file, 43, 4, 43, 9));
 
-    //     let pos = KCLPos {
-    //         filename: file.clone(),
-    //         line: 51,
-    //         column: Some(11),
-    //     };
+        let pos = KCLPos {
+            filename: file.clone(),
+            line: 51,
+            column: Some(11),
+        };
 
-    //     // let res = goto_definition(&program, &pos, &prog_scope);
-    //     // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
-    //     // compare_goto_res(res, (&file, 43, 4, 43, 9));
-    // }
+        // let res = goto_definition(&program, &pos, &prog_scope);
+        // let res = goto_definition_with_gs(&program, &pos, &prog_scope, &gs);
+        // compare_goto_res(res, (&file, 43, 4, 43, 9));
+    }
 
     #[test]
     #[bench_test]
