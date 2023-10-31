@@ -185,6 +185,9 @@ impl<'ctx> MutSelfTypedResultWalker<'ctx> for Namer<'ctx> {
                             .get_symbols()
                             .get_fully_qualified_name(symbol_ref)
                             .unwrap();
+                        self.ctx
+                            .value_fully_qualified_name_set
+                            .insert(full_attribute_name.clone());
                         let attribute_name =
                             full_attribute_name.split(".").last().unwrap().to_string();
 
