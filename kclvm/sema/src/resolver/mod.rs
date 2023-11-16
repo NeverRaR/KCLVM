@@ -1,5 +1,6 @@
 mod arg;
 mod attr;
+pub mod cache;
 mod calculation;
 mod config;
 pub mod doc;
