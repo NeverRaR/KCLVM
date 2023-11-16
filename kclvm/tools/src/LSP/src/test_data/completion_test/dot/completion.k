@@ -9,16 +9,16 @@ p = Person {
     age: 1
 }
 
-p1 = p.       # complete schema attr   p : Type None
+p1 = p.       # complete schema attr
 
 p2 = p.name.  # complete builtin (str) function
 
-p3 = subpkg.  # complete user module definition   subpg: Type None
+p3 = subpkg.  # complete user module definition
 
 import math
-math.         # complete system module definition   math; ->subpkg
+math.         # complete system module definition
 
-"a".    # "a" -> sub pkg
+"a".
 
 p4 = Person{
     

@@ -166,13 +166,21 @@ impl GlobalState {
     pub fn get_all_defs_in_scope(&self, scope: ScopeRef) -> Option<Vec<SymbolRef>> {
         let scopes = &self.scopes;
         let scope = scopes.get_scope(scope)?;
-        let mut all_defs = scope.get_all_defs(
-            scopes,
-            &self.symbols,
-            self.packages.get_module_info(scope.get_filename()),
-        );
-        all_defs.sort();
-        all_defs.dedup();
+        let mut all_defs: Vec<SymbolRef> = scope
+            .get_all_defs(
+                scopes,
+                &self.symbols,
+                self.packages.get_module_info(scope.get_filename()),
+            )
+            .values()
+            .into_iter()
+            .cloned()
+            .collect();
+
+        for builtin in self.symbols.symbols_info.global_builtin_symbols.values() {
+            all_defs.push(*builtin);
+        }
+
         Some(all_defs)
     }
 
