@@ -6,6 +6,7 @@ use lsp_server::RequestId;
 use lsp_server::Response;
 use lsp_types::notification::Exit;
 use lsp_types::request::GotoTypeDefinitionResponse;
+use lsp_types::CancelParams;
 use lsp_types::CompletionContext;
 use lsp_types::CompletionItem;
 use lsp_types::CompletionItemKind;
@@ -1276,6 +1277,7 @@ fn konfig_goto_def_test_main() {
 #[test]
 fn konfig_completion_test_main() {
     let konfig_path = konfig_path();
+    println!("{:?}", konfig_path);
     let mut main_path = konfig_path.clone();
     main_path.push("appops/nginx-example/dev/main.k");
     let main_path_str = main_path.to_str().unwrap().to_string();
@@ -1425,7 +1427,7 @@ fn konfig_hover_test_main() {
     let mut main_path = konfig_path.clone();
     main_path.push("appops/nginx-example/dev/main.k");
     let main_path_str = main_path.to_str().unwrap().to_string();
-    let (program, prog_scope, _, _) = parse_param_and_compile(
+    let (program, prog_scope, _, gs) = parse_param_and_compile(
         Param {
             file: main_path_str.clone(),
         },
@@ -1439,7 +1441,7 @@ fn konfig_hover_test_main() {
         line: 6,
         column: Some(32),
     };
-    let got = hover(&program, &pos, &prog_scope).unwrap();
+    let got = hover(&program, &pos, &prog_scope,&gs).unwrap();
     match got.contents {
         HoverContents::Array(arr) => {
             let expect: Vec<MarkedString> = vec![
@@ -1461,7 +1463,7 @@ fn konfig_hover_test_main() {
         line: 7,
         column: Some(15),
     };
-    let got = hover(&program, &pos, &prog_scope).unwrap();
+    let got = hover(&program, &pos, &prog_scope,&gs).unwrap();
     match got.contents {
         HoverContents::Array(arr) => {
             let expect: Vec<MarkedString> = vec![
@@ -1482,7 +1484,7 @@ fn konfig_hover_test_main() {
         line: 6,
         column: Some(3),
     };
-    let got = hover(&program, &pos, &prog_scope).unwrap();
+    let got = hover(&program, &pos, &prog_scope,&gs).unwrap();
     match got.contents {
         HoverContents::Scalar(s) => {
             assert_eq!(
